@@ -1,6 +1,6 @@
 import requests
 
-api_key = 'YOUR_API_KEY'  # Replace with your actual Polygon.io API key
+api_key = 'Q3syD1gaoZ0SlrafEc7vQyYQCOjJzPUY'  # Replace with your actual Polygon.io API key
 
 def get_stock_info(symbol):
     base_url = 'https://api.polygon.io/v2/reference/tickers'
