@@ -1,31 +1,34 @@
 import requests
+import time
 
-api_key = 'Q3syD1gaoZ0SlrafEc7vQyYQCOjJzPUY'  # Replace with your actual Polygon.io API key
+api_key = 'BQKDP85SFSMOP3PM'  # Replace with your actual Alpha Vantage API key
 
-def get_stock_info(symbol):
-    base_url = 'https://api.polygon.io/v2/reference/tickers'
+def get_stock_price(symbol):
+    base_url = 'https://www.alphavantage.co/query'
+    function = 'GLOBAL_QUOTE'
     params = {
-        'ticker': symbol,
-        'apiKey': api_key
+        'function': function,
+        'symbol': symbol,
+        'apikey': api_key
     }
 
-    response = requests.get(base_url, params=params)
-    data = response.json()
+    while True:
+        response = requests.get(base_url, params=params)
+        data = response.json()
 
-    if 'results' in data and len(data['results']) > 0:
-        stock = data['results'][0]
-        print('Company Name:', stock['name'])
-        print('Exchange:', stock['market'])
-        print('Country:', stock['country'])
-        print('Stock Type:', stock['type'])
-        print('Market Cap:', stock['marketCap'])
-        print('Description:', stock['description'])
-    else:
-        print('No information found for the given stock symbol.')
+        if 'Global Quote' in data:
+            stock_data = data['Global Quote']
+            price = stock_data['05. price']
+            print('Stock Symbol:', symbol)
+            print('Price:', price)
+        else:
+            print('No information found for the given stock symbol.')
+
+        time.sleep(5)  # Delay between each request (5 seconds in this example)
 
 def main():
     symbol = input('Enter the stock symbol: ')
-    get_stock_info(symbol)
+    get_stock_price(symbol)
 
 if __name__ == '__main__':
     main()
